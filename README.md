@@ -4,64 +4,103 @@ This is an FPGA project containing VHDL and Verilog code.
 
 # module1
 
-### File: test/verilog/module1.v
 
-```
-//This is module NO1
-//inputs:
-//a : input 1
-//outputs:
-//b : output 1
-```
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
 
 ## module2
 
-### File: test/verilog/module2.v
-
-```
-//This is module NO2
-//inputs:
-//a : input 1
-//outputs:
-//b : output 1
-```
+This is module NO2
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 ## module3
 
-### File: test/verilog/module3.v
-
-```
-//This is module NO3
-//inputs:
-//a : input 1
-//outputs:
-//b : output 1
-```
+This is module NO3
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 ### module4
 
-### File: test/verilog/module4.v
-
-```
-//This is module NO4
-//inputs:
-//a : input 1
-//outputs:
-//b : output 1
-```
+This is module NO4
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 ## module5
 
-### File: test/vhdl/module5.vhd
+This is module NO5
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 ### module6
 
-### File: test/vhdl/module6.vhd
+This is module NO6
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 #### module7
 
-### File: test/vhdl/module7.vhd
+This is module NO7
+inputs:
+a : input 1
+outputs:
+b : output 1
 
 ##### module8
 
-### File: test/vhdl/module8.vhd
+This is module NO8
+inputs:
+a : input 1
+outputs:
+b : output 1
