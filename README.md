@@ -2,6 +2,17 @@
 
 This is an FPGA project containing VHDL and Verilog code.
 
+# Table of Contents
+
+- [module1](#module1)
+  - [module2](#module2)
+  - [module3](#module3)
+    - [module4](#module4)
+  - [module5](#module5)
+    - [module6](#module6)
+      - [module7](#module7)
+        - [module8](#module8)
+
 # module1
 
 
@@ -49,58 +60,347 @@ Describe the state machine used within the module, including:
 Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
 
 
+**[Back to Top](#table-of-contents)**
+
 ## module2
 
-This is module NO2
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 ## module3
 
-This is module NO3
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 ### module4
 
-This is module NO4
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 ## module5
 
-This is module NO5
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 ### module6
 
-This is module NO6
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 #### module7
 
-This is module NO7
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
 
 ##### module8
 
-This is module NO8
-inputs:
-a : input 1
-outputs:
-b : output 1
+
+#### Description
+Provide a detailed description of the module here. Explain its purpose, functionality, and any relevant background information.
+
+#### Ports
+| Port Name    | Direction | Width | Description                               |
+|--------------|-----------|-------|-------------------------------------------|
+| `port1`      | input     | 1     | Description of port1                      |
+| `port2`      | output    | 8     | Description of port2                      |
+| `port3`      | inout     | 16    | Description of port3                      |
+
+
+#### Parameters
+| Parameter Name | Default Value | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `PARAM1`       | 10            | Description of PARAM1                     |
+| `PARAM2`       | 4             | Description of PARAM2                     |
+
+
+#### Internal Signals
+| Signal Name    | Width | Description                               |
+|----------------|-------|-------------------------------------------|
+| `signal1`      | 1     | Description of signal1                    |
+| `signal2`      | 8     | Description of signal2                    |
+
+#### Submodules
+| Submodule Name | Instance Name | Description                               |
+|----------------|---------------|-------------------------------------------|
+| `submodule1`   | `instance1`   | Description of submodule1                 |
+| `submodule2`   | `instance2`   | Description of submodule2                 |
+
+#### Functionality
+Provide a detailed description of the module's functionality. Include information about how it processes inputs, generates outputs, and any internal operations or state changes.
+
+#### State Machine (if applicable)
+Describe the state machine used within the module, including:
+- States
+- Transitions
+- Conditions for transitions
+- Actions performed in each state
+
+#### Timing Diagrams
+Include any relevant timing diagrams that illustrate the module's operation. Provide explanations for each diagram.
+
+
+**[Back to Top](#table-of-contents)**
