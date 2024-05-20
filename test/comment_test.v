@@ -1,127 +1,76 @@
-module complex_module #(
-    parameter WIDTH = 8, 
-    parameter DEPTH = 16
-    ) (
-    input clk,//salam
-    input rst,//khoobi
-    input [WIDTH-1:0] data_in,//ey janam
-    input start,
-    
+module ExampleModule #(
+    parameter WIDTH = 8,
+    parameter DEPTH = 16,
+    parameter ADDR_WIDTH = 4
+)(
+    // Inputs
+    input wire clk,
+    input wire reset,
+    input wire [WIDTH-1:0] data_in,
+    input logic [DEPTH-1:0] enable,
+    input bit [7:0] config,
+    input reg [3:0] mode,
+    input wire [15:0] address,
+    input [31:0] instruction,
+    input wire start,
+    input wire [ADDR_WIDTH-1:0] write_addr,
+    input logic [15:0] mask,
+    input wire init,
+    input bit stop,
+    input [WIDTH-1:0] threshold,
+    input logic [3:0] status,
+    input wire ready,
+    input bit [7:0] flag,
+    input reg [DEPTH-1:0] counter,
+    input logic [WIDTH-1:0] buffer,
+    input wire [WIDTH-1:0] temp,
+    input bit [3:0] cmd,
+    input reg [7:0] control,
+    input wire [15:0] shift,
+    input logic [7:0] interrupt,
+    input wire done,
+    input [WIDTH-1:0] data_in_ext,
+
+    // Outputs
+    output wire [WIDTH-1:0] data_out,
+    output logic [DEPTH-1:0] status_out,
+    output bit [7:0] config_out,
+    output reg [3:0] mode_out,
+    output wire [15:0] address_out,
+    output [31:0] result,
+    output wire complete,
+    output wire [ADDR_WIDTH-1:0] read_addr,
+    output logic [15:0] mask_out,
+    output wire init_done,
+    output bit stop_ack,
+    output [WIDTH-1:0] threshold_out,
+    output logic [3:0] status_flag,
+    output wire ready_signal,
+    output bit [7:0] error_flag,
+    output reg [DEPTH-1:0] counter_out,
+    output logic [WIDTH-1:0] buffer_out,
+    output wire [WIDTH-1:0] temp_out,
+    output bit [3:0] cmd_out,
+    output reg [7:0] control_out,
+    output wire [15:0] shift_out,
+    output logic [7:0] interrupt_out,
+    output wire task_done,
+    output [WIDTH-1:0] data_out_ext,
+
+    // Inouts
+    inout wire [WIDTH-1:0] bidir_data,
+    inout logic [DEPTH-1:0] bidir_status,
+    inout bit [7:0] bidir_config,
+    inout reg [3:0] bidir_mode,
+    inout wire [15:0] bidir_address,
+    inout [31:0] bidir_instruction,
+    inout wire bidir_start,
+    inout wire [ADDR_WIDTH-1:0] bidir_write_addr,
+    inout logic [15:0] bidir_mask,
+    inout wire bidir_init,
+    inout bit bidir_stop
 );
 
-    reg [WIDTH-1:0] mem [0:DEPTH-1];
-    reg [3:0] state, next_state;
-    reg [WIDTH-1:0] temp_data;
-    reg [3:0] addr;
-
-    localparam IDLE = 4'b0001;
-    localparam LOAD = 4'b0010;
-    localparam PROCESS = 4'b0100;
-    localparam DONE = 4'b1000;
-
-    assign ready = (state == IDLE);
-    assign parity_error = ^data_in; // Simple parity check
-    assign error_code = (data_in[3:0] == 4'b1111) ? 4'b0001 : 4'b0000; // Example error condition
-
-    sub_module #(.WIDTH(WIDTH)) u_sub_module (
-        .clk(clk),
-        .data_in(temp_data),
-        .data_out(data_out)
-    );
-
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            state <= IDLE;
-            done <= 0;
-        end else begin
-            state <= next_state;
-        end
-    end
-
-    always @(state or start or addr or data_in) begin
-        case (state)
-            IDLE: begin
-                if (start) begin
-                    next_state = LOAD;
-                    addr = 0;
-                end else begin
-                    next_state = IDLE;
-                end
-            end
-            LOAD: begin
-                if (addr < DEPTH) begin
-                    mem[addr] = data_in;
-                    addr = addr + 1;
-                    next_state = LOAD;
-                end else begin
-                    next_state = PROCESS;
-                end
-            end
-            PROCESS: begin
-                temp_data = mem[0]; // Example processing, should be more complex
-                next_state = DONE;
-            end
-            DONE: begin
-                done = 1;
-                next_state = IDLE;
-            end
-            default: next_state = IDLE;
-        endcase
-    end
-
-    always @(posedge clk) begin
-        // Example calculations for additional outputs
-        if (enable_1) begin
-            result_1 <= operand_1 + operand_2;
-            sum_1 <= operand_1 + operand_2;
-            active_1 <= 1;
-        end else begin
-            active_1 <= 0;
-        end
-        if (enable_2) begin
-            result_2 <= operand_3 + operand_4;
-            sum_2 <= operand_3 + operand_4;
-            active_2 <= 1;
-        end else begin
-            active_2 <= 0;
-        end
-        if (enable_3) begin
-            result_3 <= operand_1 - operand_2;
-            sum_3 <= operand_1 - operand_2;
-            active_3 <= 1;
-        end else begin
-            active_3 <= 0;
-        end
-        if (enable_4) begin
-            result_4 <= operand_3 - operand_4;
-            sum_4 <= operand_3 - operand_4;
-            active_4 <= 1;
-        end else begin
-            active_4 <= 0;
-        end
-
-        // Test signals handling
-        test_output_1 <= test_signal_1;
-        test_output_2 <= test_signal_2;
-        test_output_3 <= test_signal_3;
-        test_output_4 <= test_signal_4;
-
-        // Shared bus interaction
-        if (chip_enable) begin
-            data_bus <= address_bus;
-        end
-    end
-
-endmodule
-
-module sub_module #(parameter WIDTH = 8) (
-    input clk,
-    input [WIDTH-1:0] data_in,
-    output reg [WIDTH-1:0] data_out
-);
-
-    always @(posedge clk) begin
-        data_out <= data_in + 1;
-    end
+// Module implementation here
 
 endmodule

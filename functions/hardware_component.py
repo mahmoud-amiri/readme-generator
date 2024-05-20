@@ -5,6 +5,7 @@ class HardwareComponent:
     def __init__(self, name="", description=""):
         self.component = {
             "name": name,
+            "parameters": [],
             "inputs": [],
             "outputs": [],
             "inouts": [],
@@ -16,6 +17,32 @@ class HardwareComponent:
     
     def print_component(self):
         pprint.pprint(self.component)
+
+    def add_parameter(self, line_no, name, type, size, comment, default_value):
+        parameter_dict = {
+            "line_no": line_no,
+            "name": name,
+            "type": type,
+            "size": size,
+            "comment": comment,
+            "default_value": default_value
+        }
+        if self._check_parameter_dict(parameter_dict):
+            self.component["parameters"].append(parameter_dict)
+        else:
+            print(f"Invalid parameter: {parameter_dict}")
+
+    def _check_parameter_dict(self, parameter_dict):
+        # Add any specific checks for parameters if needed
+        return True
+    
+    def remove_parameter(self, line_no):
+        parameter_to_remove = next((param for param in self.component["parameters"] if param["line_no"] == line_no), None)
+        if parameter_to_remove:
+            self.component["parameters"].remove(parameter_to_remove)
+        else:
+            print(f"Parameter with line number '{line_no}' does not exist.")
+
 
     def add_input(self, line_no, name, type, size, comment):
         input_dict = {
@@ -159,3 +186,31 @@ class HardwareComponent:
 
     def get_component(self):
         return self.component
+    
+    def update_comments_in_dict(self, code_lines):
+        component = self.get_component()
+        
+        for key in ["inputs", "outputs", "inouts", "internal_signals"]:
+            elements = component.get(key, [])
+            for element in elements:
+                line_no = element.get("line_no")
+                if line_no is not None and line_no <= len(code_lines):
+                    line_content = code_lines[line_no - 1]
+                    comment_match = re.search(r'//\s*(.*)', line_content)
+                    if comment_match:
+                        existing_comment = comment_match.group(1).strip()
+                        element["comment"] = existing_comment
+
+    def remove_duplicate_line_entries(self):
+        component = self.get_component()
+
+        for key in ["inputs", "outputs", "inouts", "internal_signals"]:
+            elements = component.get(key, [])
+            seen_lines = set()
+            unique_elements = []
+            for element in elements:
+                line_no = element.get("line_no")
+                if line_no not in seen_lines:
+                    unique_elements.append(element)
+                    seen_lines.add(line_no)
+            component[key] = unique_elements
