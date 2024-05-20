@@ -69,4 +69,4 @@ def generate_readme(yaml_file):
         readme_file.write("\n".join(readme_lines))
 
 # Example usage
-generate_readme("project_structure.yaml")
+#generate_readme("project_structure.yaml")
