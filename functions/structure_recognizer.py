@@ -157,3 +157,21 @@ class StructureRecognizer:
 
         self.recognize_internal_signals(code_lines, internal_signal_patterns)
 
+        self.recognize_signed_registers(code_lines)
+
+    def recognize_signed_registers(self, code_lines):
+        patterns = [
+            (re.compile(r'\breg\s+signed\s+\[([^\]]+):0\]\s+(\w+)\s*[;,]'), 'reg signed array', 'signed ({size} + 1)-bit reg array for {name}'),
+            (re.compile(r'\bwire\s+signed\s+\[([^\]]+):0\]\s+(\w+)\s*[;,]'), 'wire signed array', 'signed ({size} + 1)-bit wire array for {name}'),
+            (re.compile(r'\blogic\s+signed\s+\[([^\]]+):0\]\s+(\w+)\s*[;,]'), 'logic signed array', 'signed ({size} + 1)-bit logic array for {name}'),
+            (re.compile(r'\bbit\s+signed\s+\[([^\]]+):0\]\s+(\w+)\s*[;,]'), 'bit signed array', 'signed ({size} + 1)-bit bit array for {name}')
+        ]
+
+        for pattern, signal_type, description_format in patterns:
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    size = match.group(1)
+                    name = match.group(2)
+                    description = description_format.format(size=size.strip(), name=name)
+                    self.hardware_component.add_internal_signal(line_no, name, signal_type, size, description)
