@@ -4,72 +4,8 @@ class StructureRecognizer:
     def __init__(self, hardware_component):
         self.hardware_component = hardware_component
 
-    def recognize_ports_structure(self, code_lines, patterns):
-        for pattern_info in patterns:
-            pattern, input_type, description_format, add_method = pattern_info
-            for line_no, line in enumerate(code_lines, start=1):
-                match = pattern.search(line)
-                if match:
-                    if 'array' in input_type:
-                        size = match.group(1)
-                        name = match.group(2)
-                    elif input_type in ['parameter', 'localparam']:
-                        size = '1'
-                        name = match.group(1)
-                        default_value = match.group(2)
-                    else:
-                        size = '1'
-                        name = match.group(1)
-                    
-                    description = description_format.format(size=size.strip() if isinstance(size, str) else size, name=name, default_value=default_value if input_type in ['parameter', 'localparam'] else "")
-                    
-                    # Pass default_value only for parameters
-                    if input_type in ['parameter', 'localparam']:
-                        add_method(line_no, name, input_type, size, description, default_value)
-                    else:
-                        add_method(line_no, name, input_type, size, description)
-
-    def recognize_internal_signals(self, code_lines, patterns):
-        for pattern_info in patterns:
-            pattern, signal_type, description_format, add_method = pattern_info
-            for line_no, line in enumerate(code_lines, start=1):
-                match = pattern.search(line)
-                if match:
-                    if 'multidimensional array' in signal_type:
-                        high1, low1 = int(match.group(1)), int(match.group(2))
-                        name = match.group(3)
-                        high2, low2 = int(match.group(4)), int(match.group(5))
-
-                        # Correct the order if necessary
-                        if high1 < low1:
-                            high1, low1 = low1, high1
-                        if high2 < low2:
-                            high2, low2 = low2, high2
-
-                        width = high1 - low1 + 1
-                        depth = high2 - low2 + 1
-
-                        description = description_format.format(width=width, depth=depth)
-                        add_method(line_no, name, signal_type, (width, depth), description)
-                    elif 'array' in signal_type:
-                        size = match.group(1)
-                        name = match.group(2)
-                        description = description_format.format(size=size.strip(), name=name)
-                        add_method(line_no, name, signal_type, size, description)
-                    else:
-                        size = '1'
-                        name = match.group(1)
-                        description = description_format.format(size=size.strip(), name=name)
-                        add_method(line_no, name, signal_type, size, description)
-
-
-
-
-
-
-
-    def recognize_all_structures(self, code_lines):
-        ports_patterns = [
+    def recognize_ports_structure(self, code_lines):
+        patterns = [
             (re.compile(r'\binput\s+(clk|clock|CLK|CLOCK)\s*,'), 'clock', 'input clock', self.hardware_component.add_input),
             (re.compile(r'\binput\s+(rst|reset|RST|RESET)\s*,'), 'reset', 'input reset', self.hardware_component.add_input),
             (re.compile(r'\binput\s+wire\s+(clk|clock|CLK|CLOCK)\s*,'), 'clock', 'input clock', self.hardware_component.add_input),
@@ -122,12 +58,36 @@ class StructureRecognizer:
             (re.compile(r'\binout\s+logic\s+\[([^\]]+):0\]\s+(\w+)\s*,'), 'inout array', '({size} + 1)-bit inout logic array for <43>', self.hardware_component.add_inout),
             (re.compile(r'\binout\s+bit\s+\[([^\]]+):0\]\s+(\w+)\s*,'), 'inout array', '({size} + 1)-bit inout bit array for <44>', self.hardware_component.add_inout),
             (re.compile(r'\binout\s+wire\s+\[([^\]]+):0\]\s+(\w+)\s*,'), 'inout array', '({size} + 1)-bit inout wire array for <45>', self.hardware_component.add_inout),
-            (re.compile(r'\bparameter\s+(\w+)\s*=\s*([^\s;]+)\s*[;,]?\s*\)?'), 'parameter', 'parameter {name} with default value {default_value}', self.hardware_component.add_parameter)
+            (re.compile(r'\bparameter\s+(\w+)\s*=\s*([^\s;]+)\s*,'), 'parameter', 'parameter {name} with default value {default_value}', self.hardware_component.add_parameter)
         
         ]
-        self.recognize_ports_structure(code_lines, ports_patterns)
+        for pattern_info in patterns:
+            pattern, input_type, description_format, add_method = pattern_info
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    if 'array' in input_type:
+                        size = match.group(1)
+                        name = match.group(2)
+                    elif input_type in ['parameter', 'localparam']:
+                        size = '1'
+                        name = match.group(1)
+                        default_value = match.group(2)
+                    else:
+                        size = '1'
+                        name = match.group(1)
+                    
+                    description = description_format.format(size=size.strip() if isinstance(size, str) else size, name=name, default_value=default_value if input_type in ['parameter', 'localparam'] else "")
+                    
+                    # Pass default_value only for parameters
+                    if input_type in ['parameter', 'localparam']:
+                        add_method(line_no, name, input_type, size, description, default_value)
+                    else:
+                        add_method(line_no, name, input_type, size, description)
 
-        internal_signal_patterns = [
+
+    def recognize_simple_internal_signals(self, code_lines):    
+        patterns = [
             # Internal signal patterns
             (re.compile(r'\breg\s+\[([^\]]+)-\d+:\d+\]\s+(\w+)\s*[;,]'), 'reg array', '{size}-bit reg array', self.hardware_component.add_internal_signal),
             (re.compile(r'\breg\s+\[([^\]]+):0\]\s+(\w+)\s*[;,]'), 'reg array', '({size} + 1)-bit reg array', self.hardware_component.add_internal_signal),
@@ -155,9 +115,45 @@ class StructureRecognizer:
             (re.compile(r'\bbit\s+\[(\d+):(\d+)\]\s+(\w+)\s*\[(\d+):(\d+)\]\s*;'), 'multidimensional array', '{width}x{depth}-bit bit array', self.hardware_component.add_internal_signal),
         ]
 
-        self.recognize_internal_signals(code_lines, internal_signal_patterns)
+        for pattern_info in patterns:
+            pattern, signal_type, description_format, add_method = pattern_info
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    if 'multidimensional array' in signal_type:
+                        high1, low1 = int(match.group(1)), int(match.group(2))
+                        name = match.group(3)
+                        high2, low2 = int(match.group(4)), int(match.group(5))
 
-        self.recognize_signed_registers(code_lines)
+                        # Correct the order if necessary
+                        if high1 < low1:
+                            high1, low1 = low1, high1
+                        if high2 < low2:
+                            high2, low2 = low2, high2
+
+                        width = high1 - low1 + 1
+                        depth = high2 - low2 + 1
+
+                        description = description_format.format(width=width, depth=depth)
+                        add_method(line_no, name, signal_type, (width, depth), description)
+                    elif 'array' in signal_type:
+                        size = match.group(1)
+                        name = match.group(2)
+                        description = description_format.format(size=size.strip(), name=name)
+                        add_method(line_no, name, signal_type, size, description)
+                    else:
+                        size = '1'
+                        name = match.group(1)
+                        description = description_format.format(size=size.strip(), name=name)
+                        add_method(line_no, name, signal_type, size, description)
+
+
+
+
+
+
+
+
 
     def recognize_signed_registers(self, code_lines):
         patterns = [
@@ -175,3 +171,72 @@ class StructureRecognizer:
                     name = match.group(2)
                     description = description_format.format(size=size.strip(), name=name)
                     self.hardware_component.add_internal_signal(line_no, name, signal_type, size, description)
+
+    def recognize_multidimensional_arrays(self, code_lines):
+        patterns = [
+            (re.compile(r'\breg\s+\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'reg multidimensional array', '{width1}x{width2}-bit reg array for {name}'),
+            (re.compile(r'\bwire\s*\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'wire multidimensional array', '{width1}x{width2}-bit wire array for {name}'),
+            (re.compile(r'\blogic\s*\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'logic multidimensional array', '{width1}x{width2}-bit logic array for {name}'),
+            (re.compile(r'\bbit\s*\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'bit multidimensional array', '{width1}x{width2}-bit bit array for {name}')
+        ]
+
+        for pattern, signal_type, description_format in patterns:
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    width1 = int(match.group(1)) + 1
+                    width2 = int(match.group(2)) + 1
+                    name = match.group(3)
+                    description = description_format.format(width1=width1, width2=width2, name=name)
+                    self.hardware_component.add_internal_signal(line_no, name, signal_type, (width1, width2), description)
+
+    def recognize_signed_multidimensional_arrays(self, code_lines):
+        patterns = [
+            (re.compile(r'\breg\s+signed\s+\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'reg signed multidimensional array', 'signed {width1}x{width2}-bit reg array for {name}'),
+            (re.compile(r'\bwire\s+signed\s+\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'wire signed multidimensional array', 'signed {width1}x{width2}-bit wire array for {name}'),
+            (re.compile(r'\blogic\s+signed\s+\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'logic signed multidimensional array', 'signed {width1}x{width2}-bit logic array for {name}'),
+            (re.compile(r'\bbit\s+signed\s+\[(\d+):0\]\s*\[(\d+):0\]\s+(\w+)\s*[;,]'), 'bit signed multidimensional array', 'signed {width1}x{width2}-bit bit array for {name}')
+        ]
+
+        for pattern, signal_type, description_format in patterns:
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    width1 = int(match.group(1)) + 1
+                    width2 = int(match.group(2)) + 1
+                    name = match.group(3)
+                    description = description_format.format(width1=width1, width2=width2, name=name)
+                    self.hardware_component.add_internal_signal(line_no, name, signal_type, (width1, width2), description)
+
+
+    def recognize_multidimensional_memory_arrays(self, code_lines):
+        patterns = [
+            (re.compile(r'\breg\s+\[(\d+):0\]\s+(\w+)\s*\[(\d+):(\d+)\]\s*\[(\d+):(\d+)\]\s*;'), 'reg multidimensional memory array', '{size}-bit reg memory array {name} with dimensions {dim1}x{dim2}'),
+            (re.compile(r'\bwire\s*\[(\d+):0\]\s+(\w+)\s*\[(\d+):(\d+)\]\s*\[(\d+):(\d+)\]\s*;'), 'wire multidimensional memory array', '{size}-bit wire memory array {name} with dimensions {dim1}x{dim2}'),
+            (re.compile(r'\blogic\s*\[(\d+):0\]\s+(\w+)\s*\[(\d+):(\d+)\]\s*\[(\d+):(\d+)\]\s*;'), 'logic multidimensional memory array', '{size}-bit logic memory array {name} with dimensions {dim1}x{dim2}'),
+            (re.compile(r'\bbit\s*\[(\d+):0\]\s+(\w+)\s*\[(\d+):(\d+)\]\s*\[(\d+):(\d+)\]\s*;'), 'bit multidimensional memory array', '{size}-bit bit memory array {name} with dimensions {dim1}x{dim2}')
+        ]
+
+        for pattern, signal_type, description_format in patterns:
+            for line_no, line in enumerate(code_lines, start=1):
+                match = pattern.search(line)
+                if match:
+                    size = int(match.group(1)) + 1
+                    name = match.group(2)
+                    dim1 = abs(int(match.group(3)) - int(match.group(4))) + 1
+                    dim2 = abs(int(match.group(5)) - int(match.group(6))) + 1
+                    description = description_format.format(size=size, name=name, dim1=dim1, dim2=dim2)
+                    self.hardware_component.add_internal_signal(line_no, name, signal_type, (size, dim1, dim2), description)
+
+
+    def recognize_internal_signals(self, code_lines):
+        self.recognize_simple_internal_signals(code_lines)
+        self.recognize_signed_registers(code_lines)
+        self.recognize_multidimensional_arrays(code_lines)
+        self.recognize_signed_multidimensional_arrays(code_lines)
+        self.recognize_multidimensional_memory_arrays(code_lines)
+
+    def recognize_all_structures(self, code_lines):
+        self.recognize_ports_structure(code_lines)
+        self.recognize_internal_signals(code_lines)
+        
