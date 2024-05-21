@@ -1,5 +1,5 @@
 import yaml
-import os
+
 
 def extract_doc_comments(file_path):
     doc_comments = []

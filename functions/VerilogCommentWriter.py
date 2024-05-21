@@ -64,6 +64,12 @@ class VerilogCommentWriter:
                     if '//' not in line_content:
                         code_lines[line_no - 1] = line_content.rstrip() + f" // {comment}\n"
 
+        with open(output_path, 'w') as file:
+            file.writelines(code_lines)  
+
+            
+    def add_description_block_to_code(self, code_lines, output_path):
+        
         # Generate description blocks and insert at the top
         port_description_block = self.generate_port_description_block()
         parameter_description_block = self.generate_parameter_description_block()
@@ -75,4 +81,4 @@ class VerilogCommentWriter:
         code_lines.insert(0, port_description_block)
         code_lines.insert(0, "//doc init\n")
         with open(output_path, 'w') as file:
-            file.writelines(code_lines)
+            file.writelines(code_lines)        
