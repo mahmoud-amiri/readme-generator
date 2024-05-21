@@ -214,3 +214,18 @@ class HardwareComponent:
                     unique_elements.append(element)
                     seen_lines.add(line_no)
             component[key] = unique_elements
+
+    def update_size_in_comment(self):
+        pattern = re.compile(r'\((\d+)\s*\+\s*1\)-bit')
+        
+        for key in ["inputs", "outputs", "inouts", "internal_signals"]:
+            elements = self.component.get(key, [])
+            for element in elements:
+                comment = element.get("comment", "")
+                match = pattern.search(comment)
+                if match:
+                    base_number = int(match.group(1))
+                    new_size = base_number + 1
+                    new_comment = pattern.sub(f'{new_size}-bit', comment)
+                    element["comment"] = new_comment
+                    element["size"] = new_size

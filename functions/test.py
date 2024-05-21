@@ -42,6 +42,6 @@ pprint.pprint(component_dict)
 code_lines = analyzer.read_verilog_code()
 analyzer.hardware_component.update_comments_in_dict(code_lines)
 analyzer.hardware_component.remove_duplicate_line_entries()
-
+analyzer.hardware_component.update_size_in_comment()
 comment_writer = VerilogCommentWriter(analyzer.hardware_component)
 comment_writer.add_comments_to_code(code_lines, output_path)
