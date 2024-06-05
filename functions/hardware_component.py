@@ -217,7 +217,6 @@ class HardwareComponent:
 
     def update_size_in_comment(self):
         pattern = re.compile(r'\((\d+)\s*\+\s*1\)-bit')
-        
         for key in ["inputs", "outputs", "inouts", "internal_signals"]:
             elements = self.component.get(key, [])
             for element in elements:

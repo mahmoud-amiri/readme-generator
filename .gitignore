@@ -1,0 +1,7 @@
+functions/__pycache__/*.*
+functions/__pycache__/hardware_component.cpython-39.pyc
+functions/__pycache__/hardware_component.cpython-312.pyc
+functions/__pycache__/readme_gen.cpython-39.pyc
+functions/__pycache__/VerilogAnalyzer.cpython-39.pyc
+functions/__pycache__/VerilogCommentWriter.cpython-39.pyc
+functions/__pycache__/VerilogCommentWriter.cpython-312.pyc
